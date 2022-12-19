@@ -34,5 +34,14 @@ Route::post('/update/{token}', [Dashboard::class, 'profile_update'])->name('regi
     //----------- Logout Route---------
 Route::post('/logout', [Dashboard::class, 'profile_update'])->name('register.post')->middleware(is_authenticated::class); 
     //----------- List all images in dashboard Route---------
- Route::post('/show/image/{token?}', [ImageController::class, 'profile_update'])->name('register.post')->middleware(Auth::class);  
+ Route::get('/show/image/{token?}', [ImageController::class, 'profile_update'])->name('register.post')->middleware(Auth::class); 
+   //----------- Remove Image Route---------
+   Route::get('/remove/{token?}', [ImageController::class, 'destroy'])->name('register.post')->middleware(Auth::class); 
+    //----------- View Image Link Route---------
+    Route::get('/Share/Link/id/{token}', [ImageController::class, 'Link_view'])->name('register.post')->middleware(is_authenticated::class);
+     //----------- Ask user email for whom to share picture Link Route---------
+     Route::get('/Share/id/{token}/email', [ImageController::class, 'Link_view'])->name('register.post')->middleware(is_authenticated::class);
+      //----------- Ask user email for whom to share picture Link Route---------
+      Route::get('/Share/id/{token}/email/pass', [ImageController::class, 'verify_image'])->name('register.post');
+
 

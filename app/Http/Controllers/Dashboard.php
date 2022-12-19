@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdateRequest;
 use App\Models\Client;
 use App\Models\ClientVerify;
+use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
@@ -58,22 +59,18 @@ class Dashboard extends Controller
     {
         $data=$request->query('token');
         if($data==""){
-           $re=Client::where('status','Public')->get();
+           $re=Image::where('status','Public')->get();
            foreach ($re as $user) {
-            echo $user->image;
+            echo $user->path;
            } 
         }else{
-        $user=ClientVerify::where('remember_me',$token)->first()->client;
-        $User=Client::where('email',$user->email)
-                           ->where('status','Public')
-                           ->where('status','Private')
-                           ->where('status','Hidden')
-                           ->orderBy('date')
-                           ->get();
-        foreach ($User as $user) {
-             echo $user->image;
+            $users = Client::with('iamge')
+                        ->where('status','Public')
+                        ->where('status','Private')
+                        ->where('status','Hidden')->get();
+        foreach ($users->image as $user) {
+             echo $user->path;
             }                   
-       // $fetches = Client::all();
         }}
 
 }
