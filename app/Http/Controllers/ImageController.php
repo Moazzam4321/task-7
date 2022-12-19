@@ -15,8 +15,11 @@ class ImageController extends Controller
         if (!empty($request->has('profile_photo'))) {
             $file =$request->file('profile_photo');
             $extension = $file->getClientOriginalExtension(); 
+            return "ashjahaj";
             $filename = time().'.' . $extension;
+
             $file->move(public_path('uploads/'), $filename);
+
             $data['image']= 'public/uploads/'.$filename;
         }
     }
