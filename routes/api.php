@@ -26,22 +26,22 @@ use Illuminate\Support\Facades\Route;
      // ----------- Forgot Password Raoute ---------
  Route::post('/forgot', [ClientController::class, 'forgotPassword'])->name('forgotPassword.post'); 
      // ----------- Reset Password Route ---------
- Route::post('/reset/(token}', [UserController::class, 'passwordReset'])->name('reset.password');
+ Route::post('/reset', [UserController::class, 'passwordReset'])->name('reset.password');
       //----------- Update Route---------
-Route::post('/update/{token}', [Dashboard::class, 'profile_update'])->name('register.post')->middleware(is_authenticated::class); 
+Route::post('/update', [Dashboard::class, 'profile_update'])->name('register.post')->middleware(is_authenticated::class); 
      //----------- UploadImage Route---------
- Route::post('/upload/{token}', [ImageController::class, 'upload_image'])->name('register.post')->middleware(is_authenticated::class);
+ Route::post('/upload', [ImageController::class, 'upload_image'])->name('register.post')->middleware(is_authenticated::class);
     //----------- Logout Route---------
 Route::post('/logout', [Dashboard::class, 'profile_update'])->name('register.post')->middleware(is_authenticated::class); 
     //----------- List all images in dashboard Route---------
- Route::get('/show/image/{token?}', [ImageController::class, 'profile_update'])->name('register.post')->middleware(Auth::class); 
+ Route::get('/show/image', [ImageController::class, 'profile_update'])->name('register.post')->middleware(Auth::class); 
    //----------- Remove Image Route---------
-   Route::get('/remove/{token?}', [ImageController::class, 'destroy'])->name('register.post')->middleware(Auth::class); 
+   Route::get('/remove', [ImageController::class, 'destroy'])->name('register.post')->middleware(Auth::class); 
     //----------- View Image Link Route---------
-    Route::get('/Share/Link/id/{token}', [ImageController::class, 'Link_view'])->name('register.post')->middleware(is_authenticated::class);
+    Route::get('/Share/Link/id', [ImageController::class, 'Link_view'])->name('register.post')->middleware(is_authenticated::class);
      //----------- Ask user email for whom to share picture Link Route---------
-     Route::get('/Share/id/{token}/email', [ImageController::class, 'Link_view'])->name('register.post')->middleware(is_authenticated::class);
+     Route::get('/Share/id/email', [ImageController::class, 'Link_view'])->name('register.post')->middleware(is_authenticated::class);
       //----------- Ask user email for whom to share picture Link Route---------
-      Route::get('/Share/id/{token}/email/pass', [ImageController::class, 'verify_image'])->name('register.post');
+      Route::get('/Share/id/email/pass', [ImageController::class, 'verify_image'])->name('register.post');
 
 

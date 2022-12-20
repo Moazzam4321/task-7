@@ -112,7 +112,7 @@ class ClientController extends Controller
         // Password Reset Method
      public function passwordReset(ResetRequest $request)
      {
-       $data=$request->query('token');
+      $data = $request->header('Authorization');
        if($data)
         {
            $User = UserVerify::where('token', $data)->first()->client;

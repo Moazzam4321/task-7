@@ -15,7 +15,7 @@ class ImageController extends Controller
     public function upload_image(ImageRequest $request)
     {
         $data=$request->validated();
-        $token=$request->query('token');
+        $token = $request->header('Authorization');
         $user=ClientVerify::where('remember_me',$token)->first()->Client;
         if (!empty($request->has('profile_photo'))) {
             $file =$request->file('profile_photo');
@@ -40,7 +40,7 @@ class ImageController extends Controller
         $image = Image::find($id);
         $image_path = public_path().'/'.$image->path;
         unlink($image_path);
-        $token=$request->query('token');
+        $token = $request->header('Authorization');
         $user=ClientVerify::where('remember_me',$token)->first()->Client;
         $user->image()->detach($image->image_id);
         $image->delete();
@@ -48,7 +48,7 @@ class ImageController extends Controller
       // Shareable Link Of Image
     public function link_view(Request $request)
     {
-          $token=$request->query('tokem');
+        $token = $request->header('Authorization');
          $id=$request->query('id');
          $link="http://localhost:8000/api/share/.$id.$token";
          return response()->json($link);
@@ -64,7 +64,7 @@ class ImageController extends Controller
     public function verify_image(Request $request)
     {
         $email=$request->query('email');
-        $token=$request->query('token');
+        $token = $request->header('Authorization');
         $user=ClientVerify::where('remember_me',$token)->first()->Client::where('eamil',$email);
         if($user){
          $id=$request->query('id');
