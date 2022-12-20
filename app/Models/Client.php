@@ -25,7 +25,7 @@ class Client extends Model
     }
     public function image()
     {
-        return $this->belongsToMany(image::class, 'image_user', 'user_id', ' image_id')
+        return $this->belongsToMany(image::class, 'image_user', 'user_id', 'image_id')
         ->withTimestamps();
     }
 

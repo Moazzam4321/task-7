@@ -64,12 +64,12 @@ class Dashboard extends Controller
             echo $user->path;
            } 
         }else{
-            $users = Client::with('iamge')
+            $users = Client::with('image')
                         ->where('status','Public')
                         ->where('status','Private')
                         ->where('status','Hidden')->get();
         foreach ($users->image as $user) {
-             echo $user->path;
+             echo $user->image_user->image_id;
             }                   
         }}
 

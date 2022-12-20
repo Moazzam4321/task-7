@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Image extends Model
 {
     use HasFactory;
-    protected $table = 'image';
+    protected $table = 'images';
     public $timestamps = false;
     protected $fillable = [
         'name',
@@ -16,11 +16,12 @@ class Image extends Model
         'time',
         'extension',
         'path',
+        'status',
 
     ];
     public function client()
     {
-        return $this->belongsToMany(Client::class ,'image_user', 'user_id', ' image_id')
+        return $this->belongsToMany(Client::class ,'image_user', 'image_id', 'user_id')
         ->withTimestamps();
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Requests\ImageRequest;
 use App\Jobs\EmailSending;
 use App\Models\ClientVerify;
 use App\Models\Image;
+use App\Models\image_user;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,7 @@ class ImageController extends Controller
     {
         $data=$request->validated();
         $token = $request->header('Authorization');
-        $user=ClientVerify::where('remember_me',$token)->first()->Client;
+        $user=ClientVerify::where('remember_me',$token)->first()->client;
         if (!empty($request->has('profile_photo'))) {
             $file =$request->file('profile_photo');
             $extension = $file->getClientOriginalExtension(); 
@@ -25,24 +26,24 @@ class ImageController extends Controller
             $image=Image::Create([
                 'name' => $data['name'],
                 'date' => Carbon::now(),
-                'time' => now(),
+                'time' => time(),
                 'extension' => $extension,
                 'path' => $path,
-                'status' => $data['status']
+                'status' => $request->status
             ]);
-            $user->image()->attach($image->id);
-             return response()->json("ok");
+             $user->image()->attach($image->id);
+             return response()->json($image);
         }
     }
        //  Remove Image
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request)
     {
-        $image = Image::find($id);
-        $image_path = public_path().'/'.$image->path;
-        unlink($image_path);
+        $image = Image::find($request->id);
+        // $image_path = public_path().'/'.$image->path;
+        // unlink($image_path);
         $token = $request->header('Authorization');
         $user=ClientVerify::where('remember_me',$token)->first()->Client;
-        $user->image()->detach($image->image_id);
+        $user->image()->detach($image);
         $image->delete();
     }
       // Shareable Link Of Image
@@ -69,10 +70,14 @@ class ImageController extends Controller
         if($user){
          $id=$request->query('id');
          $data= Image::where('id',$id)->first;
-         $user->image()->attach($data->id); 
+         $user->image()->attach($id); 
          return response()->json($data);
         }else{
                $message = "User not authenticated for this image";
         }
+    }
+    public function search()
+    {
+          
     }
 }
