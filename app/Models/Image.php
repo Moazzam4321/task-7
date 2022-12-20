@@ -20,7 +20,7 @@ class Image extends Model
     ];
     public function client()
     {
-        return $this->belongsToMany(Client::class)->using(image_user::class)
+        return $this->belongsToMany(Client::class ,'image_user', 'user_id', ' image_id')
         ->withTimestamps();
     }
 }

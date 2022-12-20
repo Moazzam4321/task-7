@@ -6,6 +6,7 @@ use App\Http\Requests\ImageRequest;
 use App\Jobs\EmailSending;
 use App\Models\ClientVerify;
 use App\Models\Image;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ImageController extends Controller
@@ -23,15 +24,13 @@ class ImageController extends Controller
             $path=$file->move(public_path('uploads/'), $filename);
             $image=Image::Create([
                 'name' => $data['name'],
-                'date' => now(),
+                'date' => Carbon::now(),
                 'time' => now(),
                 'extension' => $extension,
                 'path' => $path,
                 'status' => $data['status']
             ]);
-            $user->iamge()->createMany(
-                ['user->id' => $user->id,
-                  'image_id' => $image->id]);
+            $user->image()->attach($image->id);
              return response()->json("ok");
         }
     }
@@ -43,7 +42,7 @@ class ImageController extends Controller
         unlink($image_path);
         $token=$request->query('token');
         $user=ClientVerify::where('remember_me',$token)->first()->Client;
-        $user->image()->detach($user->id);
+        $user->image()->detach($image->image_id);
         $image->delete();
     }
       // Shareable Link Of Image
@@ -64,8 +63,15 @@ class ImageController extends Controller
     }
     public function verify_image(Request $request)
     {
+        $email=$request->query('email');
+        $token=$request->query('token');
+        $user=ClientVerify::where('remember_me',$token)->first()->Client::where('eamil',$email);
+        if($user){
          $id=$request->query('id');
          $data= Image::where('id',$id)->first; 
-         return response()->json($data); 
+         return response()->json($data);
+        }else{
+               $message = "User not authenticated for this image";
+        }
     }
 }
