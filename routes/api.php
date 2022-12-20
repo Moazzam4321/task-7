@@ -37,13 +37,13 @@ Route::post('/logout', [Dashboard::class, 'profile_update'])->name('register.pos
  Route::get('/show/image', [ImageController::class, 'profile_update'])->name('register.post')->middleware(Auth::class); 
    //----------- Remove Image Route---------
 Route::post('/remove', [ImageController::class, 'destroy'])->name('register.post')->middleware(Auth::class); 
-    //----------- View Image Link Route---------
-Route::get('/Share/Link/id', [ImageController::class, 'Link_view'])->name('register.post')->middleware(is_authenticated::class);
+    //----------- Share Image Link Route---------
+Route::get('/Share/id', [ImageController::class, 'Link_view'])->name('register.post')->middleware(is_authenticated::class);
      //----------- Ask user email for whom to share picture Link Route---------
 Route::get('/Share/id/email', [ImageController::class, 'Link_view'])->name('register.post')->middleware(is_authenticated::class);
       //----------- Ask user email for whom to share picture Link Route---------
 Route::get('/Share/id/email/pass', [ImageController::class, 'verify_image'])->name('register.post');
-       //----------- Logout Route---------
+       //----------- Search image Route---------
 Route::get('/search', [ImageController::class, 'search'])->name('register.post')->middleware(is_authenticated::class); 
 
 

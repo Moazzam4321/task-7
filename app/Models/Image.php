@@ -9,6 +9,7 @@ class Image extends Model
 {
     use HasFactory;
     protected $table = 'images';
+    //protected $hidden = ['pivot'];
     public $timestamps = false;
     protected $fillable = [
         'name',

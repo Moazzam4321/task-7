@@ -55,22 +55,21 @@ class Dashboard extends Controller
        }
     }
       // List Images Method
-    public function show_image(Request $request,$token)
+    public function show_image(Request $request)
     {
-        $data=$request->query('token');
+        $data = $request->header('Authorization');
         if($data==""){
            $re=Image::where('status','Public')->get();
            foreach ($re as $user) {
             echo $user->path;
            } 
         }else{
-            $users = Client::with('image')
+            $re=Image::where('status','Public')->orderBy('date')->get();
+            $users = ClientVerify::where('remember_me',$data)->client()->image()
                         ->where('status','Public')
                         ->where('status','Private')
-                        ->where('status','Hidden')->get();
-        foreach ($users->image as $user) {
-             echo $user->image_user->image_id;
-            }                   
+                        ->where('status','Hidden')->orderBy('date')->get();
+          return $users.$re;                 
         }}
 
 }

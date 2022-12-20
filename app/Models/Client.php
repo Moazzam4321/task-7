@@ -9,6 +9,7 @@ class Client extends Model
 {
     use HasFactory;
     protected $table = 'users';
+    //protected $hidden = ['pivot'];
     public $timestamps = false;
     protected $fillable = [
         'name',
