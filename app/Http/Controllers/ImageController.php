@@ -68,7 +68,8 @@ class ImageController extends Controller
         $user=ClientVerify::where('remember_me',$token)->first()->Client::where('eamil',$email);
         if($user){
          $id=$request->query('id');
-         $data= Image::where('id',$id)->first; 
+         $data= Image::where('id',$id)->first;
+         $user->image()->attach($data->id); 
          return response()->json($data);
         }else{
                $message = "User not authenticated for this image";
