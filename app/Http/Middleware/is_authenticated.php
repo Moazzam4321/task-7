@@ -18,7 +18,6 @@ class is_authenticated
     public function handle(Request $request, Closure $next)
     {
         $token = $request->header('Authorization');
-        //$token=$request->query('token');
         $user=ClientVerify::where('remember_me',$token)->first();
         if($user){
             return $next($request);
