@@ -79,8 +79,9 @@ class ImageController extends Controller
     {
         $email=$request->query('email');
         $token = $request->header('Authorization');
-        $user=ClientVerify::where('remember_me',$token)->first()->client()->where('email',$email)->get();
-        if($user){
+        $user=ClientVerify::where('remember_me',$token)->first()->client;
+        $User=$user->where('email',$email);
+        if($User){
          $id=$request->query('id');
          $data= Image::where('id',$id)->first;
          $user->image()->attach($id); 

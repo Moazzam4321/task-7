@@ -21,12 +21,12 @@ class EmailSending implements ShouldQueue
      *
      * @return void
      */
-   public $link,$request,$subject;
-    public function __construct($link,$request,$subject)
+   public $link,$email,$subject;
+    public function __construct($link,$email,$subject)
     {
         //
         $this->link=$link;
-        $this->request=$request;
+        $this->email=$email;
         $this->subject=$subject;
     }
 
@@ -38,6 +38,6 @@ class EmailSending implements ShouldQueue
     public function handle()
     {
         //
-        Mail::to($this->request['email'])->send(new Verification($this->link,$this->subject));
+        Mail::to($this->email)->send(new Verification($this->link,$this->subject));
     }
 }

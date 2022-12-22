@@ -139,10 +139,11 @@ class ClientController extends Controller
           }
       }
          // Send mail function
-      function send_mail($Client,SignUpRequest $request)
+      function send_mail($Client,$request)
       {
              
             $token = Str::random(10);
+            $email=$request->email;
                  $link="http://localhost:8000/api/account/verify/$token";
       
                  UserVerify::create([
@@ -150,9 +151,7 @@ class ClientController extends Controller
                    'token' => $token
                  ]);
                  $subject="Email Verification";
-               //return $link;
-                  EmailSending::dispatch($link,$request,$subject);
-                 // return "ok";
+                  EmailSending::dispatch($link,$email,$subject);
       }
 }
 
