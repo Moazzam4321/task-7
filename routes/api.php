@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Route;
      // ----------- Forgot Password Raoute ---------
  Route::post('/forgot', [ClientController::class, 'forgotPassword'])->name('forgotPassword.post'); 
      // ----------- Reset Password Route ---------
- Route::post('/reset', [UserController::class, 'passwordReset'])->name('reset.password');
+ Route::post('/reset/{token}', [ClientController::class, 'passwordReset'])->name('reset.password');
       //----------- Update Route---------
 Route::post('/update', [Dashboard::class, 'profile_update'])->name('register.post')->middleware(is_authenticated::class); 
      //----------- UploadImage Route---------
@@ -38,7 +38,7 @@ Route::post('/logout', [Dashboard::class, 'profile_update'])->name('register.pos
    //----------- Remove Image Route---------
 Route::post('/remove', [ImageController::class, 'destroy'])->name('register.post')->middleware(Auth::class); 
     //----------- Share Image Link Route---------
-Route::get('/Share/id', [ImageController::class, 'Link_view'])->name('register.post')->middleware(is_authenticated::class);
+Route::get('/Share', [ImageController::class, 'Link_view'])->name('register.post')->middleware(is_authenticated::class);
      //----------- Ask user email for whom to share picture Link Route---------
 Route::get('/Share/id/email', [ImageController::class, 'Link_view'])->name('register.post')->middleware(is_authenticated::class);
       //----------- Ask user email for whom to share picture Link Route---------

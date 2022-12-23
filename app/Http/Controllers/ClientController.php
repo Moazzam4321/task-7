@@ -67,13 +67,13 @@ class ClientController extends Controller
     { 
       $req=$request->validated();
       $user=Client::where('email',$request->email)->first();
-      if($user->email_verified_at !="")
+      if($user->email_verified_at =="")
       {
           $message='Email not verified. First go to ur gmail for verify link then login';
       }
       else
       {
-        $pass=$user->password;
+         $pass=$user->password;
         $password=hash::check($req['password'],$pass);
         if($password)
         {
@@ -82,19 +82,20 @@ class ClientController extends Controller
                'user_id' => $user->id, 
                'remember_me' => $token
            ]); 
-           $message=$user.$get;   
+           $client=$get->client;  
+           $message=$client;
         }
         else{
              $message= "invalid password";
         }
         return response()->json(["message"=>$message]);
-      }
+       }
     }
                // Forgot Password Method
      public function forgotPassword(ForgotRequest $request)
      {
-        $data=$request->validated();
-        $User=Client::where('email',$data['email'])->first();
+        $data1=$request->validated();
+        $User=Client::where('email',$data1['email'])->first();
         if($User)
         {            
           $token = Str::random(10); 
@@ -104,6 +105,7 @@ class ClientController extends Controller
                       'token' => $token
                    ]);
           $subject="Reset Password Link";
+          $data=$data1['email'];
           EmailSending::dispatch($link,$data,$subject);
         }else{
              return response()->json("User Not Found");
@@ -115,10 +117,10 @@ class ClientController extends Controller
       $data = $request->header('Authorization');
        if($data)
         {
-           $User = UserVerify::where('token', $data)->first()->client;
+          return $User = UserVerify::where('token', $data)->first()->client();
             if($User)
             {
-              $User->remember_me->delete();
+              $User->client_verify()->delete();
              $User->password=Hash::make($data['password'], [
                     'rounds' => 12,
                    ]);
@@ -126,7 +128,7 @@ class ClientController extends Controller
             }
           $message = 'Password reset successfully.Now go to login';
            return response()->json($message);
-       }
+        }
      }
          // Unique email function
      function unique_email(SignUpRequest $request)

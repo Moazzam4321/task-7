@@ -20,6 +20,10 @@ class Client extends Model
         'created_on',
 
     ];
+    protected $hidden = [   
+        'password',
+    ];
+
     public function client_verify()
     {
        return $this->hasMany(ClientVerify::class);
